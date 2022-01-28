@@ -16,40 +16,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSf-3N-LDh">
-                                <rect key="frame" x="165.5" y="437.5" width="83.5" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Generate"/>
-                                <connections>
-                                    <action selector="button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2iD-TO-5Tl"/>
-                                </connections>
-                            </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="OYv-Qr-OVM">
-                                <rect key="frame" x="127.5" y="359" width="159" height="34"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="w5q-Vm-Pyn">
+                                <rect key="frame" x="127.5" y="398.5" width="159" height="109"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="joI-Ng-EUZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="32" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                    </textField>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EUq-5p-WcN">
-                                        <rect key="frame" x="40" y="0.0" width="119" height="35"/>
-                                        <segments>
-                                            <segment title="KB"/>
-                                            <segment title="MB"/>
-                                            <segment title="GB"/>
-                                        </segments>
-                                    </segmentedControl>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="OYv-Qr-OVM">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="joI-Ng-EUZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="32" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EUq-5p-WcN">
+                                                <rect key="frame" x="40" y="0.0" width="119" height="35"/>
+                                                <segments>
+                                                    <segment title="KB"/>
+                                                    <segment title="MB"/>
+                                                    <segment title="GB"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="changeSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="8Zf-iq-fOH"/>
+                                                </connections>
+                                            </segmentedControl>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSf-3N-LDh">
+                                        <rect key="frame" x="38" y="78" width="83.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Generate"/>
+                                        <connections>
+                                            <action selector="button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2iD-TO-5Tl"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="PSf-3N-LDh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ikj-kI-oId"/>
-                            <constraint firstItem="PSf-3N-LDh" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Utb-R3-kWO"/>
-                            <constraint firstItem="OYv-Qr-OVM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lCS-td-lqh"/>
-                            <constraint firstItem="OYv-Qr-OVM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="315" id="rFg-ON-gro"/>
+                            <constraint firstItem="w5q-Vm-Pyn" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="osN-JE-2Uw"/>
+                            <constraint firstItem="w5q-Vm-Pyn" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="yeu-gB-1P5"/>
                         </constraints>
                     </view>
                     <connections>

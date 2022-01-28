@@ -19,6 +19,21 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func changeSegment(_ sender: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            segment = 1024.0
+        case 1:
+            segment = pow(1024.0, 2.0)
+        case 2:
+            segment = pow(1024.0, 3.0)
+        default:
+            break
+        }
+    }
+    
+    var segment: Double?
+    
     func shared() {
         guard let count = Int(textField.text!) else {
             print("count must be Int")
@@ -40,7 +55,7 @@ class ViewController: UIViewController {
         
         var data: Data?
         do {
-            data = try secureRandomData(count: count * Int(pow(1024.0, 2.0)))
+            data = try secureRandomData(count: count * Int(segment!))
         } catch {
             print(error)
         }
