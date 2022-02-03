@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet var segmentedControl: UISegmentedControl!
     
     @IBAction func button(_ sender: UIButton) {
-        if (textField.text != nil) {
+        if textField.text?.isEmpty == false {
             shared()
         }
     }
@@ -22,19 +22,20 @@ class ViewController: UIViewController {
     @IBAction func changeSegment(_ sender: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            segment = 1024.0
+            multiplier = 1024
         case 1:
-            segment = pow(1024.0, 2.0)
+            multiplier = Int(pow(1024.0, 2.0))
         case 2:
-            segment = pow(1024.0, 3.0)
+            multiplier = Int(pow(1024.0, 3.0))
         default:
             break
         }
     }
     
-    var segment: Double?
+    var multiplier = 1024
     
     func shared() {
+        
         guard let count = Int(textField.text!) else {
             print("count must be Int")
             return
@@ -54,61 +55,49 @@ class ViewController: UIViewController {
         print(newFolderUrl.path)
         
         var data: Data?
+//        var md5String: String?
+        
         do {
-            data = try secureRandomData(count: count * Int(segment!))
-        } catch {
-            print(error)
-        }
-        
-        var md5String: String?
-        if data != nil {
-            md5String = Insecure.MD5.hash(data: data!).map { String(format: "%02hhx", $0) }.joined()
-        }
-        
-        let fileUrl = newFolderUrl.appendingPathComponent(md5String! + ".txt")
-        
-        fileManager.createFile(
-            atPath: fileUrl.path,
-            contents: data,
-            attributes: [FileAttributeKey.creationDate: Date()]
-        )
-        
-        let activityItems = [fileUrl]
-        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        
-        activityViewController.excludedActivityTypes = [
-            UIActivity.ActivityType.airDrop,
-            UIActivity.ActivityType.copyToPasteboard
-        ]
-        
-        self.present(activityViewController, animated: true, completion: nil)
-        
-        activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?, completed:
-        Bool, arrayReturnedItems: [Any]?, error: Error?) in
-            if completed {
-                print("share completed")
-                if fileManager.fileExists(atPath: fileUrl.path) {
-                    do {
-                        try fileManager.removeItem(at: fileUrl)
-                    } catch {
-                        print(error)
-                    }
+            data = try secureRandomData(count: count * multiplier)
+            let md5String = Insecure.MD5.hash(data: data!).map { String(format: "%02hhx", $0) }.joined()
+            
+            let fileUrl = newFolderUrl.appendingPathComponent(md5String + ".tmp")
+            
+            fileManager.createFile(
+                atPath: fileUrl.path,
+                contents: data,
+                attributes: [FileAttributeKey.creationDate: Date()]
+            )
+            
+            let activityItems = [fileUrl]
+            let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+            
+            self.present(activityViewController, animated: true, completion: nil)
+            
+            activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?,
+                                                                   completed: Bool,
+                                                                   arrayReturnedItems: [Any]?,
+                                                                   error: Error?) in
+                completed ? print("share completed") : print("share cancel")
+                
+//                if fileManager.fileExists(atPath: fileUrl.path) {
+//                    do {
+//                        try fileManager.removeItem(at: fileUrl)
+//                    } catch {
+//                        print(error)
+//                    }
+//                }
+                
+                if let shareError = error {
+                    print("error while sharing: \(shareError.localizedDescription)")
                 }
                 return
-            } else {
-                print("cancel")
-                if fileManager.fileExists(atPath: fileUrl.path) {
-                    do {
-                        try fileManager.removeItem(at: fileUrl)
-                    } catch {
-                        print(error)
-                    }
-                }
             }
-            if let shareError = error {
-                print("error while sharing: \(shareError.localizedDescription)")
-            }
+        } catch {
+            print(error.localizedDescription)
         }
+        
+        
     }
     
     func secureRandomData(count: Int) throws -> Data? {
